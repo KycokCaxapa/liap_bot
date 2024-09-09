@@ -13,7 +13,7 @@ class User(Base):
 
     id: Mapped[intpk]
     tg_id = mapped_column(BigInteger)
-    password: Mapped[str]
+    password: Mapped[str] = mapped_column(default=None, nullable=True)
     role: Mapped[str]
 
 
