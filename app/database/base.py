@@ -14,9 +14,9 @@ class BaseDAO:
             await session.commit()
 
     @classmethod
-    async def get_by_id(cls, id: int):
+    async def get_by_filter(cls, **filter):
         async with async_session() as session:
-            object = await session.scalar(select(cls.model).where(cls.id == id))
+            object = await session.scalar(select(cls.model).filter_by(**filter))
             return object
     
     @classmethod
@@ -26,8 +26,8 @@ class BaseDAO:
             await session.commit()
 
     @classmethod
-    async def delete_by_id(cls, id: int) -> None:
+    async def delete_by_filter(cls, **filter) -> None:
         async with async_session() as session:
-            object = await session.scalar(select(cls.model).where(cls.id == id))
+            object = await session.scalar(select(cls.model).filter_by(**filter))
             await session.delete(object)
             await session.commit()

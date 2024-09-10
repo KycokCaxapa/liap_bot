@@ -1,6 +1,6 @@
-from sqlalchemy import BigInteger
-from sqlalchemy.orm import Mapped, mapped_column
-from typing import Annotated
+from sqlalchemy import BigInteger, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import Annotated, List
 
 from app.database.database import Base
 
@@ -18,12 +18,19 @@ class User(Base):
 
 
 class Auditorium(Base):
-    __tablename__ = 'auditorium'
+    __tablename__ = 'auditoriums'
 
     id: Mapped[intpk]
+    number: Mapped[str]
+    equipment: Mapped[List['Equipment'] | None] = relationship(back_populates='auditorium',
+                                                        lazy='joined')
+    '''Только с lazy='joined' при получении аудитории отображаются записи из таблицы equipments'''
 
 
 class Equipment(Base):
     __tablename__ = 'equipment'
 
     id: Mapped[intpk]
+    thing: Mapped[str]
+    auditorium_id: Mapped[int] = mapped_column(ForeignKey('auditoriums.id'))
+    auditorium: Mapped['Auditorium'] = relationship(back_populates='equipment')
