@@ -22,6 +22,8 @@ class Auditorium(Base):
 
     id: Mapped[intpk]
     number: Mapped[str]
+    members: Mapped[int] #кол-во студентов
+    projector: Mapped[bool] #проектор есть или нет
     equipment: Mapped[List['Equipment'] | None] = relationship(back_populates='auditorium',
                                                         lazy='joined')
     '''Только с lazy='joined' при получении аудитории отображаются записи из таблицы equipments'''
