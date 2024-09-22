@@ -42,4 +42,4 @@ async def filter_auditoriums(filters : Auditoriumfilter = FilterDepends(Auditori
             query = query.order_by(asc(Auditorium.members))
         else:
             query = query.order_by(desc(Auditorium.members)) 
-        return query
+        return query 
