@@ -1,4 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Query
+
+from fastapi_filter import FilterDepends
+from sqlalchemy import select, asc, desc
+from app.database.database import async_session
+from app.database.models import Auditorium
+from app.routers.auditorium.filters import Auditoriumfilter
 
 from app.routers.auditorium.schemas import SAuditorium
 from app.routers.auditorium.dao import AuditoriumDAO
@@ -27,3 +33,13 @@ async def update_auditorium(id: int, data: SAuditorium) -> None:
 @router.delete('/delete')
 async def delete_auditorium(number: str) -> None:
     await AuditoriumDAO.delete_by_filter(number=number)
+
+@router.get('/filter')
+async def filter_auditoriums(filters : Auditoriumfilter = FilterDepends(Auditoriumfilter), sort: str = Query("asc", regex= "^(asc|desc)$")):
+    async with async_session() as session:
+        query = await session.scalars(select(Auditorium).filter(*filters.get_filters()))
+        if sort == "asc":
+            query = query.order_by(asc(Auditorium.members))
+        else:
+            query = query.order_by(desc(Auditorium.members)) 
+        return query
