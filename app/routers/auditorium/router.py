@@ -35,11 +35,13 @@ async def delete_auditorium(number: str) -> None:
     await AuditoriumDAO.delete_by_filter(number=number)
 
 @router.get('/filter')
-async def filter_auditoriums(filters : Auditoriumfilter = FilterDepends(Auditoriumfilter), sort: str = Query("asc", regex= "^(asc|desc)$")):
+async def filter_auditoriums(filters : Auditoriumfilter = FilterDepends(Auditoriumfilter), sort: str = Query("asc", regex= "^(asc|desc)$"), projector: bool | None = Query(None)):
     async with async_session() as session:
         query = await session.scalars(select(Auditorium).filter(*filters.get_filters()))
         if sort == "asc":
             query = query.order_by(asc(Auditorium.members))
         else:
-            query = query.order_by(desc(Auditorium.members)) 
+            query = query.order_by(desc(Auditorium.members))
+        if projector is not None:
+            query = query.filter(Auditorium.projector == projector)
         return query 
