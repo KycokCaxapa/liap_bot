@@ -1,6 +1,6 @@
-from app.database.database import async_session
-from app.database.base import BaseDAO
-from app.database.models import User
+from database.database import async_session
+from database.base import BaseDAO
+from database.models import User
 from sqlalchemy import select
 
 

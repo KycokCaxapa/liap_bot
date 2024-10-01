@@ -1,7 +1,8 @@
 from fastapi import APIRouter
+from typing import List
 
-from app.routers.equipment.schemas import SEquipment
-from app.routers.equipment.dao import EquipmentDAO
+from routers.equipment.schemas import SEquipment
+from routers.equipment.dao import EquipmentDAO
 
 
 router = APIRouter(prefix='/equipment',
@@ -12,6 +13,12 @@ router = APIRouter(prefix='/equipment',
 async def create_equipment(data: SEquipment) -> None:
     await EquipmentDAO.create(thing=data.thing,
                               auditorium_id=data.auditorium_id)
+
+
+@router.get('/get_all')
+async def get_all_auditoriums() -> List[SEquipment]:
+    auditorium = await EquipmentDAO.get_all()
+    return auditorium
 
 
 @router.get('/get')

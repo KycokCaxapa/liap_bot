@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from app.routers.equipment.schemas import SEquipment
+from routers.equipment.schemas import SEquipment
 
 
 class SAuditorium(BaseModel):

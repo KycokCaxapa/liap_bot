@@ -1,0 +1,7 @@
+aiogram
+alembic
+asyncpg
+fastapi[all]
+fastapi_filter
+python-dotenv
+sqlalchemy

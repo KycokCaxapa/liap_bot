@@ -2,8 +2,8 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram import Router
 
-from app.routers.auth.dao import UserDAO
-from app.routers.auth.keyboards import keyboard
+from routers.auth.dao import UserDAO
+from routers.auth.keyboards import keyboard
 
 
 router = Router()

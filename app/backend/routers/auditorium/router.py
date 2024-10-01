@@ -1,7 +1,8 @@
 from fastapi import APIRouter
+from typing import List
 
-from app.routers.auditorium.schemas import SAuditorium
-from app.routers.auditorium.dao import AuditoriumDAO
+from routers.auditorium.schemas import SAuditorium
+from routers.auditorium.dao import AuditoriumDAO
 
 
 router = APIRouter(prefix='/auditorium',
@@ -11,6 +12,12 @@ router = APIRouter(prefix='/auditorium',
 @router.post('/create')
 async def create_auditorium(data: SAuditorium) -> None:
     await AuditoriumDAO.create(number=data.number)
+
+
+@router.get('/get_all')
+async def get_all_auditoriums() -> List[SAuditorium]:
+    auditorium = await AuditoriumDAO.get_all()
+    return auditorium
 
 
 @router.get('/get')
