@@ -22,7 +22,7 @@ class BaseDAO:
             return query.unique().scalars()
 
     @classmethod
-    async def get_by_filter(cls, **filter) -> Auditorium | Equipment:
+    async def get_by_filter(cls, **filter) -> Auditorium | Equipment | None:
         async with async_session() as session:
             object = await session.scalar(select(cls.model).filter_by(**filter))
             return object

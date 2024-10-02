@@ -22,6 +22,8 @@ class Auditorium(Base):
 
     id: Mapped[intpk]
     number: Mapped[str]
+    members: Mapped[int]
+    projector: Mapped[bool]
     equipment: Mapped[List['Equipment'] | None] = relationship(back_populates='auditorium', lazy='joined')
     '''Только с lazy='joined' при получении аудитории отображаются записи из таблицы equipments'''
 
@@ -31,5 +33,6 @@ class Equipment(Base):
 
     id: Mapped[intpk]
     thing: Mapped[str]
+    amount: Mapped[int]
     auditorium_id: Mapped[int] = mapped_column(ForeignKey('auditoriums.id'))
     auditorium: Mapped['Auditorium'] = relationship(back_populates='equipment')
