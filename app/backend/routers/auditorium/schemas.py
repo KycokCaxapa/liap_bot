@@ -1,9 +1,11 @@
+from typing import List, Optional
 from pydantic import BaseModel
-from typing import List
 
 from routers.equipment.schemas import SEquipment
 
 
 class SAuditorium(BaseModel):
     number: str
-    equipment: List[SEquipment] | None
+    members: int
+    projector: bool
+    equipment: Optional[List[SEquipment]]

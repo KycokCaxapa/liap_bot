@@ -1,6 +1,8 @@
+from fastapi_filter import FilterDepends
+from typing import List, Optional
 from fastapi import APIRouter
-from typing import List
 
+from routers.auditorium.filters import AuditoriumFilter
 from routers.auditorium.schemas import SAuditorium
 from routers.auditorium.dao import AuditoriumDAO
 
@@ -11,24 +13,30 @@ router = APIRouter(prefix='/auditorium',
 
 @router.post('/create')
 async def create_auditorium(data: SAuditorium) -> None:
-    await AuditoriumDAO.create(number=data.number)
+    await AuditoriumDAO.create(number=data.number,
+                               members=data.members,
+                               projector=data.projector)
 
 
 @router.get('/get_all')
-async def get_all_auditoriums() -> List[SAuditorium]:
+async def get_all_auditoriums() -> Optional[List[SAuditorium]]:
     auditorium = await AuditoriumDAO.get_all()
     return auditorium
 
 
-@router.get('/get')
-async def get_auditorium(number: str) -> SAuditorium:
-    auditorium = await AuditoriumDAO.get_by_filter(number=number)
+@router.get('/get_by_filters')
+async def get_auditoriums_by_filters(filters: AuditoriumFilter = FilterDepends(AuditoriumFilter)) -> Optional[List[SAuditorium]]:
+    auditorium = await AuditoriumDAO.get_by_filters(filters)
     return auditorium
 
 
 @router.put('/update')
-async def update_auditorium(id: int, data: SAuditorium) -> None:
-    await AuditoriumDAO.update_by_id(id, number=data.number)
+async def update_auditorium(id: int, data: SAuditorium) -> SAuditorium:
+    await AuditoriumDAO.update_by_id(id,
+                                     number=data.number,
+                                     members=data.members,
+                                     projector=data.projector)
+    return SAuditorium
 
 
 @router.delete('/delete')
