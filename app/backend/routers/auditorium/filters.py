@@ -15,6 +15,6 @@ class AuditoriumFilter(Filter):
 
     class Constants(Filter.Constants):
         model = Auditorium
-
+    
     class Config:
         populate_by_name = True

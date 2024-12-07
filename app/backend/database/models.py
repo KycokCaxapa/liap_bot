@@ -1,5 +1,5 @@
-from sqlalchemy import BigInteger, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import BigInteger, ForeignKey
 from typing import Annotated, List
 
 from database.database import Base
@@ -25,7 +25,6 @@ class Auditorium(Base):
     members: Mapped[int]
     projector: Mapped[bool]
     equipment: Mapped[List['Equipment'] | None] = relationship(back_populates='auditorium', lazy='joined')
-    '''Только с lazy='joined' при получении аудитории отображаются записи из таблицы equipments'''
 
 
 class Equipment(Base):

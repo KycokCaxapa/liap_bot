@@ -15,15 +15,15 @@ from routers.auth.router import router as auth_router
 
 app = FastAPI()
 
-app.include_router(auditorium_router)
-app.include_router(equipment_router)
+app.include_router(auditorium_router, prefix='/api')
+app.include_router(equipment_router, prefix='/api')
 
-origins = ['http://localhost:5173']
+origins = []
 
 app.add_middleware(CORSMiddleware,
                    allow_origins=origins,
                    allow_methods=['POST', 'GET', 'PUT', 'DELETE'],
-                   allow_headers=['*']) #Возможно, заголовки также придётся прописать вручную, например, 'Content-Type', 'Set-Cookie'
+                   allow_headers=['*'])
 
 bot = Bot(token=settings.TOKEN)
 dp = Dispatcher()

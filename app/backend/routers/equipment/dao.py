@@ -12,5 +12,5 @@ class EquipmentDAO(BaseDAO):
 
     async def get_by_filters(filter: EquipmentFilter) -> Optional[List[Equipment]]:
         async with async_session() as session:
-            equipment = await session.scalars(filter.filter(select(Equipment)))
-            return equipment
+            equipment = await session.execute(filter.filter(select(Equipment)))
+            return equipment.unique().scalars()

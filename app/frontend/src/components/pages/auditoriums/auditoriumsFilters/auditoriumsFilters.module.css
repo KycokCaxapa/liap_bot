@@ -1,0 +1,127 @@
+details {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+summary {
+	border-bottom: 3px #fafafa solid;
+	cursor: pointer;
+
+	font-family: montserrat;
+	font-size: 1.1em;
+	font-weight: 400;
+	color: #fafafa;
+	letter-spacing: 2px;
+}
+
+.filters {
+	margin: 2em 0;
+
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	gap: 1em;
+}
+
+.numberFilter {
+	display: flex;
+	align-items: end;
+	gap: 0.5em;
+
+	cursor: pointer;
+}
+
+.numberLabel {
+	border-bottom: 2px solid rgb(88, 255, 219);
+
+	font-size: 1.1em;
+	color: rgb(88, 255, 219);
+}
+
+.numberFilterField {
+	outline: none;
+	width: 8em;
+	
+	background-color: inherit;
+	border-bottom: 2px solid rgb(88, 255, 219);
+	color: rgb(88, 255, 219);
+}
+
+.numberFilterField::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+.numberFilterField::-webkit-input-placeholder {
+	color: rgb(88, 255, 219);
+	opacity: 0.5;
+}
+
+.membersFilter {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+}
+
+.membersLabel {
+	border-bottom: 2px solid rgb(88, 255, 219);
+
+	font-size: 1.1em;
+	color: rgb(88, 255, 219);
+}
+
+.projectorFilter {
+	width: 20em;
+
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+
+	cursor: pointer;
+}
+
+.projectorLabel {
+	cursor: pointer;
+
+	border-bottom: 2px solid rgb(88, 255, 219);
+
+	font-size: 1.1em;
+	color: rgb(88, 255, 219);
+}
+
+.projectorFilterField {
+	width: 1.1em;
+	height: 1.1em;
+	margin-top: 0.2em;
+
+	accent-color: rgb(88, 255, 219);
+}
+
+.submitFilters {
+	width: 20em;
+	margin-top: 1em;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: inherit;
+	border: 3px solid rgb(88, 255, 219);
+	border-radius: 1em;
+
+	cursor: pointer;
+
+	font-family: montserrat;
+	font-size: 1em;
+	font-weight: 700;
+	color: rgb(88, 255, 219);
+	letter-spacing: 3px;
+	
+	transition: all 0.5s ease;
+}
+
+.submitFilters:hover {
+	background-color: rgb(88, 255, 219);
+	color: #fafafa;
+}
