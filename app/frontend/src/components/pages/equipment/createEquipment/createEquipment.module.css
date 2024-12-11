@@ -1,0 +1,98 @@
+.addEquipment {
+	width: 300px;
+	height: 50px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: rgba(53, 255, 73, 0.5);
+	border: 3px solid rgb(53, 255, 73);
+	border-radius: 10px;
+
+	cursor: pointer;
+
+	font-family: montserrat;
+	font-size: 1em;
+	font-weight: 700;
+	color: #fafafa;
+	letter-spacing: 2px;
+
+	transition: all 0.5s ease;
+}
+
+.modal {
+	position: fixed;
+	top: 150px;
+	padding: 20px;
+	width: 300px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+
+	background: #94ff74;
+	border: 3px solid #35ff49;
+	border-radius: 10px;
+	box-shadow: 0 0 200px 200px #66666680;
+}
+
+.title {
+	font-family: montserrat;
+	font-size: 0.9em;
+	font-weight: 700;
+	color: #fafafa;
+	letter-spacing: 2px;
+}
+
+label {
+	display: flex;
+	justify-content: center;
+	gap: 5px;
+
+	font-family: montserrat;
+	font-size: 1em;
+	font-weight: 700;
+	color: #fafafa;
+}
+
+label input {
+	width: 100px;
+}
+
+.createEquipment {
+	width: 250px;
+	height: 50px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: rgb(53, 255, 73);
+	border-radius: 10px;
+
+	cursor: pointer;
+
+	font-family: montserrat;
+	font-size: 1em;
+	font-weight: 700;
+	color: #fafafa;
+	letter-spacing: 3px;
+
+	transition: all 0.5s ease;
+}
+
+.closeModal {
+	background: inherit;
+	border-bottom: 3px solid #fafafa;
+	cursor: pointer;
+
+	font-family: montserrat;
+	font-size: 1em;
+	font-weight: 700;
+	color: #fafafa;
+	letter-spacing: 3px;
+
+	transition: all 0.5s ease;
+}

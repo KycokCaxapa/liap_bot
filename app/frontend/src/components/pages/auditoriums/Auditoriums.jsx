@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 
 import AuditoriumsFilters from './auditoriumsFilters/AuditoriumsFilters'
+import CreateAuditorium from './createAuditorium/CreateAuditorium'
+import EditAuditorium from './editAuditorium/EditAuditorium'
 import { fetchAuditoriums } from '../../../services/api'
 
 import styles from './auditoriums.module.css'
 
-export default function Auditoriums() {
+export default function Auditoriums({ userRole }) {
 	const [numberFilter, setNumberFilter] = useState('')
 	const [minMembersFilter, setMinMembersFilter] = useState()
 	const [maxMembersFilter, setMaxMembersFilter] = useState()
@@ -24,7 +26,7 @@ export default function Auditoriums() {
 		setProjectorFilter(projectorFilter)
 	}
 
-	const fetchData = async () => {
+	useEffect(async () => {
 		const params = new URLSearchParams()
 
 		if (numberFilter) params.append('number', numberFilter)
@@ -34,32 +36,43 @@ export default function Auditoriums() {
 
 		const response = await fetchAuditoriums(params)
 		setData(response)
-	}
-
-	useEffect(() => {
-		fetchData()
 	}, [numberFilter, minMembersFilter, maxMembersFilter, projectorFilter])
 
 	return (
 		<main className={styles.main}>
-			<AuditoriumsFilters
-				applyFilters={applyFilters}
-				initNumberFilter={numberFilter}
-				initMinMembersFilter={minMembersFilter}
-				initMaxMembersFilter={maxMembersFilter}
-				initProjectorFilter={projectorFilter}
-			/>
+			<section className={styles.buttons}>
+				<CreateAuditorium userRole={userRole} />
+				<AuditoriumsFilters
+					applyFilters={applyFilters}
+					initNumberFilter={numberFilter}
+					initMinMembersFilter={minMembersFilter}
+					initMaxMembersFilter={maxMembersFilter}
+					initProjectorFilter={projectorFilter}
+				/>
+			</section>
 			<ul className={styles.itemsList}>
-				{data?.map((auditorium, index) => (
-					<li className={styles.item} key={index}>
+				{data?.map(auditorium => (
+					<li className={styles.item} key={auditorium.id}>
 						<span>Аудитория: {auditorium.number}</span>
 						<span>Количество мест: {auditorium.members}</span>
 						<span>Проектор: {auditorium.projector ? '✓' : '–'}</span>
-						{auditorium.equipment.map(equipment => (
-							<span>
-								Оборудование: {equipment.thing} * {equipment.amount}
-							</span>
-						))}
+						<span>
+							Оборудование:
+							{auditorium.equipment.length > 0
+								? auditorium.equipment
+										.map(
+											equipment => ` ${equipment.thing} * ${equipment.amount}`
+										)
+										.join(', ')
+								: ' –'}
+						</span>
+						<EditAuditorium
+							userRole={userRole}
+							id={auditorium.id}
+							number={auditorium.number}
+							members={auditorium.members}
+							projector={auditorium.projector}
+						/>
 					</li>
 				))}
 			</ul>

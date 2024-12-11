@@ -1,21 +1,21 @@
-from aiogram.filters import CommandStart
-from aiogram.types import Message
-from aiogram import Router
+from typing import List, Optional
+from fastapi import APIRouter
 
+from routers.auth.schema import SUser
 from routers.auth.dao import UserDAO
-from routers.auth.keyboards import keyboard
 
 
-router = Router()
+router = APIRouter(prefix='/users',
+                   tags=['Users'])
 
 
-@router.message(CommandStart())
-async def start(message: Message) -> None:
-    tg_id = message.from_user.id
-    if await UserDAO.user_exists(tg_id):
-        await message.answer('Снова привет!',
-                             reply_markup=keyboard)
-    else:
-        await UserDAO.create(tg_id=tg_id, role='student')
-        await message.answer('Привет!',
-                             reply_markup=keyboard)
+@router.get('/get_all')
+async def get_all_users() -> Optional[List[SUser]]:
+    users = await UserDAO.get_all()
+    return users
+
+
+@router.get('/get_role')
+async def get_user_role(tg_id: int) -> str:
+    role = await UserDAO.get_user_role(tg_id)
+    return role

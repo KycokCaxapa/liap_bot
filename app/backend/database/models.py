@@ -13,7 +13,7 @@ class User(Base):
 
     id: Mapped[intpk]
     tg_id = mapped_column(BigInteger)
-    password: Mapped[str] = mapped_column(default=None, nullable=True)
+    username: Mapped[str]
     role: Mapped[str]
 
 
@@ -24,7 +24,7 @@ class Auditorium(Base):
     number: Mapped[str]
     members: Mapped[int]
     projector: Mapped[bool]
-    equipment: Mapped[List['Equipment'] | None] = relationship(back_populates='auditorium', lazy='joined')
+    equipment: Mapped[List['Equipment'] | None] = relationship(back_populates='auditorium', lazy='selectin')
 
 
 class Equipment(Base):
@@ -34,4 +34,4 @@ class Equipment(Base):
     thing: Mapped[str]
     amount: Mapped[int]
     auditorium_id: Mapped[int] = mapped_column(ForeignKey('auditoriums.id'))
-    auditorium: Mapped['Auditorium'] = relationship(back_populates='equipment')
+    auditorium: Mapped['Auditorium'] = relationship(back_populates='equipment', lazy='selectin')

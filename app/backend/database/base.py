@@ -9,10 +9,15 @@ class BaseDAO:
     model = None
 
     @classmethod
+    async def is_exists(cls, id: int) -> bool:
+        async with async_session() as session:
+            user = await session.scalar(select(cls.model).where(cls.model.id == id))
+            return user
+
+    @classmethod
     async def create(cls, **data) -> None:
         async with async_session() as session:
-            query = insert(cls.model).values(**data)
-            await session.execute(query)
+            session.add(cls.model(**data))
             await session.commit()
     
     @classmethod

@@ -1,7 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
 from aiogram import Bot, Dispatcher
 from fastapi import FastAPI
-# from app.backend.config import settings
 from config import settings
 
 import asyncio
@@ -10,6 +9,7 @@ import uvicorn
 
 from routers.auditorium.router import router as auditorium_router
 from routers.equipment.router import router as equipment_router
+from routers.auth.tgrouter import router as tg_auth_router
 from routers.auth.router import router as auth_router
 
 
@@ -17,6 +17,7 @@ app = FastAPI()
 
 app.include_router(auditorium_router, prefix='/api')
 app.include_router(equipment_router, prefix='/api')
+app.include_router(auth_router, prefix='/api')
 
 origins = []
 
@@ -27,7 +28,7 @@ app.add_middleware(CORSMiddleware,
 
 bot = Bot(token=settings.TOKEN)
 dp = Dispatcher()
-dp.include_router(auth_router)
+dp.include_router(tg_auth_router)
 
 
 async def start_bot() -> None:
