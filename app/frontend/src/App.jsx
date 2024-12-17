@@ -10,14 +10,15 @@ import { fetchUserRole } from './services/api.js'
 import './styles.css'
 
 export default function App() {
+	const [userID, setUserID] = useState(null)
 	const [userRole, setUserRole] = useState(null)
 
 	useEffect(async () => {
 		const tg = window.Telegram.WebApp
 		tg.ready()
 		const userID = tg.initDataUnsafe.user.id
-
-        await fetchUserRole(userID).then(response => setUserRole(response))
+		setUserID(userID)
+		await fetchUserRole(userID).then(response => setUserRole(response))
 	}, [])
 
 	if (userRole)
@@ -25,12 +26,18 @@ export default function App() {
 			<Router>
 				<Header />
 				<Routes>
-					<Route path='/' element={<Auditoriums userRole={userRole} />} />
+					<Route
+						path='/'
+						element={<Auditoriums userID={userID} userRole={userRole} />}
+					/>
 					<Route
 						path='/auditoriums'
-						element={<Auditoriums userRole={userRole} />}
+						element={<Auditoriums userID={userID} userRole={userRole} />}
 					/>
-					<Route path='/equipment' element={<Equipment userRole={userRole} />} />
+					<Route
+						path='/equipment'
+						element={<Equipment userID={userID} userRole={userRole} />}
+					/>
 				</Routes>
 				<Footer />
 			</Router>

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import BigInteger, ForeignKey
-from typing import Annotated, List
+from typing import Annotated, List, Optional
 
 from database.database import Base
 
@@ -25,6 +25,9 @@ class Auditorium(Base):
     members: Mapped[int]
     projector: Mapped[bool]
     equipment: Mapped[List['Equipment'] | None] = relationship(back_populates='auditorium', lazy='selectin')
+    is_booked: Mapped[bool]
+    booked_by: Mapped[Optional[int]] = mapped_column(ForeignKey('users.id'))
+    user: Mapped[Optional['User']] = relationship('User', lazy='selectin')
 
 
 class Equipment(Base):
@@ -35,3 +38,5 @@ class Equipment(Base):
     amount: Mapped[int]
     auditorium_id: Mapped[int] = mapped_column(ForeignKey('auditoriums.id'))
     auditorium: Mapped['Auditorium'] = relationship(back_populates='equipment', lazy='selectin')
+    booked_by: Mapped[Optional[int]] = mapped_column(ForeignKey('users.id'))
+    user: Mapped[Optional['User']] = relationship('User', lazy='selectin')

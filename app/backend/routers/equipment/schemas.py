@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class SEquipmentPost(BaseModel):
@@ -7,11 +8,9 @@ class SEquipmentPost(BaseModel):
     auditorium: str
 
 
-class SEquipmentGet(BaseModel):
+class SEquipmentGet(SEquipmentPost):
     id: int
-    thing: str
-    amount: int
-    auditorium: str
+    booked_by: Optional[int]
 
 
 class SEquipmentGetForAuditorium(BaseModel):
@@ -20,8 +19,11 @@ class SEquipmentGetForAuditorium(BaseModel):
     auditorium: int
 
 
-class SEquipmentUpdate(BaseModel):
+class SEquipmentPut(SEquipmentPost):
     id: int
-    thing: str
+
+
+class SEquipmentBook(BaseModel):
+    id: int
     amount: int
-    auditorium: str
+    booked_by: Optional[int]

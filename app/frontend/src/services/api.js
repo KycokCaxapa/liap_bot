@@ -47,6 +47,15 @@ export const updateAuditorium = async data => {
 	}
 }
 
+export const bookAuditorium = async data => {
+	try {
+		await API.put('/auditorium/book', data)
+	} catch (error) {
+		console.error(`Ошибка при бронировании аудитории: ${error}`)
+		throw error
+	}
+}
+
 export const deleteAuditorium = async param => {
 	try {
 		await API.delete('/auditorium/delete', {
@@ -84,6 +93,15 @@ export const updateEquipment = async data => {
 		await API.put('/equipment/update', data)
 	} catch (error) {
 		console.error(`Ошибка при обновлении оборудования: ${error}`)
+		throw error
+	}
+}
+
+export const bookEquipment = async data => {
+	try {
+		await API.put('/equipment/book', data)
+	} catch (error) {
+		console.error(`Ошибка при бронировании оборудования: ${error}`)
 		throw error
 	}
 }

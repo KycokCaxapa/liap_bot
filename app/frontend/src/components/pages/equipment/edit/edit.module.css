@@ -1,9 +1,14 @@
+section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .editImg {
-	/* position: absolute; */
-	top: 5px;
-	left: 5px;
-	width: 40px;
-	height: 40px;
+    top: 5px;
+    left: 5px;
+    width: 40px;
+    height: 40px;
 }
 
 .modal {
@@ -24,7 +29,7 @@
 
 .title {
 	font-family: montserrat;
-	font-size: 0.9em;
+	font-size: 0.8em;
 	font-weight: 700;
 	color: #fafafa;
 	letter-spacing: 2px;
@@ -45,8 +50,8 @@ label input {
 	width: 100px;
 }
 
-.editAuditorium,
-.deleteAuditorium {
+.editEquipment,
+.deleteEquipment {
 	width: 250px;
 	height: 50px;
 
@@ -67,11 +72,11 @@ label input {
 	transition: all 0.5s ease;
 }
 
-.editAuditorium {
+.editEquipment {
 	background-color: rgb(255, 216, 45);
 }
 
-.deleteAuditorium {
+.deleteEquipment {
 	background-color: rgb(255, 53, 53);
 }
 

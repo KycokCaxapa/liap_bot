@@ -10,12 +10,11 @@ from database.base import BaseDAO
 
 class AuditoriumDAO(BaseDAO):
     model = Auditorium
-
+    
     async def get_id_by_number(number: str) -> Optional[int]:
         async with async_session() as session:
             auditorium = await session.scalar(select(Auditorium.id).where(Auditorium.number == number))
             return auditorium
-
     
     async def get_by_filters(filter: AuditoriumFilter) -> Optional[List[Auditorium]]:
         async with async_session() as session:

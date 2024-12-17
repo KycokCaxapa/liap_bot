@@ -10,16 +10,18 @@ class SAuditoriumPost(BaseModel):
     projector: bool
 
 
-class SAuditoriumGet(BaseModel):
+class SAuditoriumGet(SAuditoriumPost):
     id: int
-    number: str
-    members: int
-    projector: bool
     equipment: Optional[List[SEquipmentGetForAuditorium]]
+    is_booked: bool
+    booked_by: Optional[int]
 
 
-class SAuditoriumUpdate(BaseModel):
+class SAuditoriumPut(SAuditoriumPost):
     id: int
-    number: str
-    members: int
-    projector: bool
+
+
+class SAuditoriumBook(BaseModel):
+    id: int
+    is_booked: bool
+    tg_id: Optional[int]

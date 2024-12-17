@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Slider } from '@mui/material'
 
-import styles from './AuditoriumsFilters.module.css'
+import styles from './filters.module.css'
 
-export default function AuditoriumsFilters({
+export default function Filters({
 	applyFilters,
 	initNumberFilter = '',
 	initMinMembersFilter = '',

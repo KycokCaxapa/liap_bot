@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
-import AuditoriumsFilters from './auditoriumsFilters/AuditoriumsFilters'
-import CreateAuditorium from './createAuditorium/CreateAuditorium'
-import EditAuditorium from './editAuditorium/EditAuditorium'
 import { fetchAuditoriums } from '../../../services/api'
+import Filters from './filters/Filters'
+import Create from './create/Create'
+import Edit from './edit/Edit'
+import Book from './book/Book'
 
 import styles from './auditoriums.module.css'
 
-export default function Auditoriums({ userRole }) {
+export default function Auditoriums({ userID, userRole }) {
 	const [numberFilter, setNumberFilter] = useState('')
 	const [minMembersFilter, setMinMembersFilter] = useState()
 	const [maxMembersFilter, setMaxMembersFilter] = useState()
@@ -41,8 +42,10 @@ export default function Auditoriums({ userRole }) {
 	return (
 		<main className={styles.main}>
 			<section className={styles.buttons}>
-				<CreateAuditorium userRole={userRole} />
-				<AuditoriumsFilters
+				{(userRole === 'admin' || userRole === 'teacher') && (
+					<Create />
+				)}
+				<Filters
 					applyFilters={applyFilters}
 					initNumberFilter={numberFilter}
 					initMinMembersFilter={minMembersFilter}
@@ -66,13 +69,22 @@ export default function Auditoriums({ userRole }) {
 										.join(', ')
 								: ' –'}
 						</span>
-						<EditAuditorium
-							userRole={userRole}
-							id={auditorium.id}
-							number={auditorium.number}
-							members={auditorium.members}
-							projector={auditorium.projector}
-						/>
+						{(userRole === 'admin' || userRole === 'teacher') && (
+							<Edit
+								id={auditorium.id}
+								number={auditorium.number}
+								members={auditorium.members}
+								projector={auditorium.projector}
+							/>
+						)}
+						{(userRole === 'admin' || userRole === 'teacher') && (
+							<Book
+								userID={userID}
+								auditoriumID={auditorium.id}
+								initIsBooked={auditorium.is_booked}
+								bookedBy={auditorium.booked_by}
+							/>
+						)}
 					</li>
 				))}
 			</ul>

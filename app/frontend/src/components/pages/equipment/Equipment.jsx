@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
-import EquipmentFilters from './equipmentFilters/EquipmentFilters'
-import CreateEquipment from './createEquipment/createEquipment'
-import EditEquipment from './editEquipment/EditEquipment'
 import { fetchEquipment } from '../../../services/api'
+import Filters from './filters/Filters'
+import Create from './create/Create'
+import Edit from './edit/Edit'
+import Book from './book/Book'
 
 import styles from './equipment.module.css'
 
-export default function Equipment({ userRole }) {
+export default function Equipment({ userID, userRole }) {
 	const [thingFilter, setThingFilter] = useState('')
 	const [minAmountFilter, setMinAmountFilter] = useState()
 	const [data, setData] = useState([])
@@ -30,8 +31,10 @@ export default function Equipment({ userRole }) {
 	return (
 		<main className={styles.main}>
 			<section className={styles.buttons}>
-				<CreateEquipment userRole={userRole} />
-				<EquipmentFilters
+				{(userRole === 'admin' || userRole === 'teacher') && (
+					<Create />
+				)}
+				<Filters
 					applyFilters={applyFilters}
 					initThingFilter={thingFilter}
 					initMinAmountFilter={minAmountFilter}
@@ -44,13 +47,22 @@ export default function Equipment({ userRole }) {
 							Оборудование: {equipment.thing} * {equipment.amount}
 						</span>
 						<span>Аудитория: {equipment.auditorium}</span>
-						<EditEquipment
-							userRole={userRole}
-							id={equipment.id}
-							thing={equipment.thing}
-							amount={equipment.amount}
-							auditorium={equipment.auditorium}
-						/>
+						{(userRole === 'admin' || userRole === 'teacher') && (
+							<Edit
+								id={equipment.id}
+								thing={equipment.thing}
+								amount={equipment.amount}
+								auditorium={equipment.auditorium}
+							/>
+						)}
+						{(userRole === 'admin' || userRole === 'student') && (
+							<Book
+								userID={userID}
+								equipmentID={equipment.id}
+								initAmount={equipment.amount}
+								initIsBooked={equipment.booked_by}
+							/>
+						)}
 					</li>
 				))}
 			</ul>

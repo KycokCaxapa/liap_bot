@@ -1,0 +1,16 @@
+.bookWrapper {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+.user {
+	font-family: montserrat;
+	font-size: 0.9em;
+	font-weight: 600;
+	color: black;
+}
+
+.bookField {
+	accent-color: rgb(88, 255, 219);
+}

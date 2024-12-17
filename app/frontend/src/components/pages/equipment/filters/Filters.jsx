@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import styles from './EquipmentFilters.module.css'
+import styles from './filters.module.css'
 
-export default function EquipmentFilters({
+export default function Filters({
 	applyFilters,
 	initThingFilter = '',
 	initMinAmountFilter = '',
