@@ -11,6 +11,7 @@ router = APIRouter(prefix='/users',
 
 @router.get('/get_all')
 async def get_all_users() -> Optional[List[SUser]]:
+    '''Only for debugging.'''
     users = await UserDAO.get_all()
     return users
 

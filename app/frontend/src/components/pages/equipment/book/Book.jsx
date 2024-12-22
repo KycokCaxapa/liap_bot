@@ -23,6 +23,9 @@ export default function Book({
 		const updatedAmount = isChecked ? amount + 1 : amount - 1
 		const updatedBookedBy = isChecked ? null : userID
 
+		const param = new URLSearchParams()
+		param.append('tg_id', userID)
+
 		const data = {
 			id: equipmentID,
 			amount: updatedAmount,
@@ -30,7 +33,7 @@ export default function Book({
 		}
 
 		try {
-			await bookEquipment(data)
+			await bookEquipment(data, param)
 			setAmount(updatedAmount)
 			setBookedBy(updatedBookedBy)
 		} catch (error) {
@@ -40,13 +43,16 @@ export default function Book({
 
 	return (
 		<section className={styles.book}>
-			<input
-				className={styles.bookField}
-				type='checkbox'
-				checked={isChecked}
-				onChange={handleBook}
-				disable={!isChecked && amount < 0}
-			/>
+			<label className={styles.bookField}>
+				Забронировать оборудование
+				<input
+					className={styles.bookCheckbox}
+					type='checkbox'
+					checked={isChecked}
+					onChange={handleBook}
+					disable={!isChecked && amount < 0}
+				/>
+			</label>
 		</section>
 	)
 }

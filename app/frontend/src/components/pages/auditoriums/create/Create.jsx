@@ -4,7 +4,7 @@ import { createAuditorium } from '../../../../services/api'
 
 import styles from './createAuditorium.module.css'
 
-export default function Create() {
+export default function Create({ userID }) {
 	const [modalWindow, setModalWindow] = useState(false)
 	const [formData, setFormData] = useState({
 		number: null,
@@ -18,6 +18,9 @@ export default function Create() {
 			return
 		}
 
+		const param = new URLSearchParams()
+		param.append('tg_id', userID)
+
 		const data = {
 			number: formData.number,
 			members: formData.members,
@@ -26,7 +29,7 @@ export default function Create() {
 		}
 
 		try {
-			await createAuditorium(data)
+			await createAuditorium(data, param)
 			setModalWindow(false)
 		} catch (error) {
 			alert('Ошибка при создании аудитории. Проверьте данные.')
@@ -68,7 +71,7 @@ export default function Create() {
 						Проектор:
 						<input
 							type='checkbox'
-							value={formData.projector}
+							checked={formData.projector}
 							onChange={e =>
 								setFormData(prev => ({
 									...prev,

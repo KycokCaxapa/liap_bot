@@ -4,7 +4,7 @@ import { createEquipment } from '../../../../services/api'
 
 import styles from './create.module.css'
 
-export default function Create() {
+export default function Create({ userID }) {
 	const [modalWindow, setModalWindow] = useState(false)
 	const [formData, setFormData] = useState({
 		thing: null,
@@ -18,6 +18,9 @@ export default function Create() {
 			return
 		}
 
+		const param = new URLSearchParams()
+		param.append('tg_id', userID)
+
 		const data = {
 			thing: formData.thing,
 			amount: formData.amount,
@@ -25,7 +28,7 @@ export default function Create() {
 		}
 
 		try {
-			await createEquipment(data)
+			await createEquipment(data, param)
 			setModalWindow(false)
 		} catch (error) {
 			alert('Ошибка при создании оборудования.')

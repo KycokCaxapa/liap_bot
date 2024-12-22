@@ -15,6 +15,11 @@ class EquipmentDAO(BaseDAO):
         async with async_session() as session:
             equipment_id = await session.scalar(select(Equipment.id).where(Equipment.thing == thing))
             return equipment_id
+
+    async def get_thing_by_id(id: int) -> str:
+        async with async_session() as session:
+            equipment_thing = await session.scalar(select(Equipment.thing).where(Equipment.id == id))
+            return equipment_thing
     
     async def get_auditorium_by_id(id: int) -> str:
         async with async_session() as session:

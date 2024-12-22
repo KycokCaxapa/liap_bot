@@ -4,7 +4,7 @@ import { updateEquipment, deleteEquipment } from '../../../../services/api'
 
 import styles from './edit.module.css'
 
-export default function Edit({ id, thing, amount, auditorium }) {
+export default function Edit({ userID, id, thing, amount, auditorium }) {
 	const [modalWindow, setModalWindow] = useState(false)
 	const [formData, setFormData] = useState({
 		id: id,
@@ -14,6 +14,9 @@ export default function Edit({ id, thing, amount, auditorium }) {
 	})
 
 	const handleSubmit = async () => {
+		const param = new URLSearchParams()
+		param.append('tg_id', userID)
+
 		const data = {
 			id: id,
 			thing: formData.thing,
@@ -22,7 +25,7 @@ export default function Edit({ id, thing, amount, auditorium }) {
 		}
 
 		try {
-			await updateEquipment(data)
+			await updateEquipment(data, param)
 			setModalWindow(false)
 		} catch (error) {
 			alert('Ошибка при обновлении оборудования.')
@@ -31,10 +34,11 @@ export default function Edit({ id, thing, amount, auditorium }) {
 
 	const handleDelete = async () => {
 		try {
-			const param = new URLSearchParams()
-			param.append('id', id)
+			const params = new URLSearchParams()
+			params.append('tg_id', userID)
+			params.append('id', id)
 
-			await deleteEquipment(param)
+			await deleteEquipment(params)
 			setModalWindow(false)
 		} catch (error) {
 			alert('Ошибка при удалении оборудования.')

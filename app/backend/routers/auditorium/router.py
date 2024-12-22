@@ -6,6 +6,7 @@ from routers.auditorium.filters import AuditoriumFilter
 from routers.auditorium.dao import AuditoriumDAO
 from routers.auditorium.schemas import *
 from routers.auth.dao import UserDAO
+from core.bot import bot
 
 
 router = APIRouter(prefix='/auditorium',
@@ -13,18 +14,14 @@ router = APIRouter(prefix='/auditorium',
 
 
 @router.post('/create')
-async def create_auditorium(data: SAuditoriumPost) -> None:
+async def create_auditorium(tg_id: int, data: SAuditoriumPost) -> None:
     await AuditoriumDAO.create(number=data.number,
                                members=data.members,
                                projector=data.projector,
                                is_booked=False,
                                booked_by=None)
-
-
-@router.get('/get_all')
-async def get_all_auditoriums() -> Optional[List[SAuditoriumGet]]:
-    auditorium = await AuditoriumDAO.get_all()
-    return auditorium
+    await bot.send_message(chat_id=tg_id,
+                           text=f'Вы создали аудиторию {data.number}')
 
 
 @router.get('/get_by_filters')
@@ -52,21 +49,34 @@ async def get_auditoriums_by_filters(filters: AuditoriumFilter = FilterDepends(A
 
 
 @router.put('/update')
-async def update_auditorium(data: SAuditoriumPut) -> None:
+async def update_auditorium(tg_id: int, data: SAuditoriumPut) -> None:
+    auditorium_number = await AuditoriumDAO.get_number_by_id(data.id)
+
     await AuditoriumDAO.update_by_id(id=data.id,
                                      number=data.number,
                                      members=data.members,
                                      projector=data.projector)
+    await bot.send_message(chat_id=tg_id,
+                           text=f'Вы изменили аудиторию {auditorium_number}')
 
 
 @router.put('/book')
-async def book_auditorium(data: SAuditoriumBook) -> None:
-    user_id = await UserDAO.get_id_by_tg_id(data.tg_id)
+async def book_auditorium(tg_id: int, data: SAuditoriumBook) -> None:
+    user_id = await UserDAO.get_id_by_tg_id(tg_id) if data.is_booked else None
+    auditorium_number = await AuditoriumDAO.get_number_by_id(data.id)
+    message = f'Вы забронировали аудиторию {auditorium_number}' if data.is_booked else f'Вы сняли бронь с аудитории {auditorium_number}'
+
     await AuditoriumDAO.update_by_id(id=data.id,
                                      is_booked=data.is_booked,
                                      booked_by=user_id)
+    await bot.send_message(chat_id=tg_id,
+                           text=message)
 
 
 @router.delete('/delete')
-async def delete_auditorium(id: int) -> None:
+async def delete_auditorium(tg_id: int, id: int) -> None:
+    auditorium_number = await AuditoriumDAO.get_number_by_id(id)
+
     await AuditoriumDAO.delete_by_filter(id=id)
+    await bot.send_message(chat_id=tg_id,
+                           text=f'Вы удалили аудиторию {auditorium_number}')

@@ -24,4 +24,3 @@ class SAuditoriumPut(SAuditoriumPost):
 class SAuditoriumBook(BaseModel):
     id: int
     is_booked: bool
-    tg_id: Optional[int]

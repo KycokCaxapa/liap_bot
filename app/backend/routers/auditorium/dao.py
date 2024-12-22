@@ -13,8 +13,13 @@ class AuditoriumDAO(BaseDAO):
     
     async def get_id_by_number(number: str) -> Optional[int]:
         async with async_session() as session:
-            auditorium = await session.scalar(select(Auditorium.id).where(Auditorium.number == number))
-            return auditorium
+            auditorium_id = await session.scalar(select(Auditorium.id).where(Auditorium.number == number))
+            return auditorium_id
+    
+    async def get_number_by_id(id: int) -> str:
+        async with async_session() as session:
+            auditorium_number = await session.scalar(select(Auditorium.number).where(Auditorium.id == id))
+            return auditorium_number
     
     async def get_by_filters(filter: AuditoriumFilter) -> Optional[List[Auditorium]]:
         async with async_session() as session:

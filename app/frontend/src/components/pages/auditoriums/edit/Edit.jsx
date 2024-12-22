@@ -4,7 +4,7 @@ import { updateAuditorium, deleteAuditorium } from '../../../../services/api'
 
 import styles from './edit.module.css'
 
-export default function Edit({ id, number, members, projector }) {
+export default function Edit({ userID, id, number, members, projector }) {
 	const [modalWindow, setModalWindow] = useState(false)
 	const [formData, setFormData] = useState({
 		id: id,
@@ -14,6 +14,9 @@ export default function Edit({ id, number, members, projector }) {
 	})
 
 	const handleSubmit = async () => {
+		const param = new URLSearchParams()
+		param.append('tg_id', userID)
+
 		const data = {
 			id: id,
 			number: formData.number,
@@ -24,7 +27,7 @@ export default function Edit({ id, number, members, projector }) {
 		}
 
 		try {
-			await updateAuditorium(data)
+			await updateAuditorium(data, param)
 			setModalWindow(false)
 		} catch (error) {
 			alert('Ошибка при обновлении аудитории.')
@@ -34,6 +37,7 @@ export default function Edit({ id, number, members, projector }) {
 	const handleDelete = async () => {
 		try {
 			const param = new URLSearchParams()
+			param.append('tg_id', userID)
 			param.append('id', id)
 
 			await deleteAuditorium(param)
@@ -44,7 +48,7 @@ export default function Edit({ id, number, members, projector }) {
 	}
 
 	return (
-		<section className={styles.edit}>
+		<section>
 			<button onClick={() => setModalWindow(true)}>
 				<img className={styles.editImg} src='/assets/edit.svg' />
 			</button>

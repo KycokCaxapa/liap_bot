@@ -43,7 +43,7 @@ export default function Auditoriums({ userID, userRole }) {
 		<main className={styles.main}>
 			<section className={styles.buttons}>
 				{(userRole === 'admin' || userRole === 'teacher') && (
-					<Create />
+					<Create userID={userID} />
 				)}
 				<Filters
 					applyFilters={applyFilters}
@@ -56,6 +56,17 @@ export default function Auditoriums({ userID, userRole }) {
 			<ul className={styles.itemsList}>
 				{data?.map(auditorium => (
 					<li className={styles.item} key={auditorium.id}>
+						<aside className={styles.edit}>
+							{(userRole === 'admin' || userRole === 'teacher') && (
+								<Edit
+									userID={userID}
+									id={auditorium.id}
+									number={auditorium.number}
+									members={auditorium.members}
+									projector={auditorium.projector}
+								/>
+							)}
+						</aside>
 						<span>Аудитория: {auditorium.number}</span>
 						<span>Количество мест: {auditorium.members}</span>
 						<span>Проектор: {auditorium.projector ? '✓' : '–'}</span>
@@ -69,14 +80,7 @@ export default function Auditoriums({ userID, userRole }) {
 										.join(', ')
 								: ' –'}
 						</span>
-						{(userRole === 'admin' || userRole === 'teacher') && (
-							<Edit
-								id={auditorium.id}
-								number={auditorium.number}
-								members={auditorium.members}
-								projector={auditorium.projector}
-							/>
-						)}
+
 						{(userRole === 'admin' || userRole === 'teacher') && (
 							<Book
 								userID={userID}

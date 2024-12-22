@@ -32,7 +32,7 @@ export default function Equipment({ userID, userRole }) {
 		<main className={styles.main}>
 			<section className={styles.buttons}>
 				{(userRole === 'admin' || userRole === 'teacher') && (
-					<Create />
+					<Create userID={userID} />
 				)}
 				<Filters
 					applyFilters={applyFilters}
@@ -43,18 +43,22 @@ export default function Equipment({ userID, userRole }) {
 			<ul className={styles.itemsList}>
 				{data?.map((equipment, index) => (
 					<li className={styles.item} key={index}>
+						{(userRole === 'admin' || userRole === 'teacher') && (
+							<aside className={styles.edit}>
+								<Edit
+									userID={userID}
+									id={equipment.id}
+									thing={equipment.thing}
+									amount={equipment.amount}
+									auditorium={equipment.auditorium}
+								/>
+							</aside>
+						)}
 						<span>
 							Оборудование: {equipment.thing} * {equipment.amount}
 						</span>
 						<span>Аудитория: {equipment.auditorium}</span>
-						{(userRole === 'admin' || userRole === 'teacher') && (
-							<Edit
-								id={equipment.id}
-								thing={equipment.thing}
-								amount={equipment.amount}
-								auditorium={equipment.auditorium}
-							/>
-						)}
+
 						{(userRole === 'admin' || userRole === 'student') && (
 							<Book
 								userID={userID}
